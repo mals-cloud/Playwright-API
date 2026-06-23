@@ -2,7 +2,7 @@ import { request, test, expect }from '@playwright/test'
 
 test('Get All Users Playwright Test', async({request})=>{
 
-    const responseBody = await request.get('https://reqres.in/api/users',
+    const responseBody = await request.get('/api/users',
        { headers: {
     'content-type': 'application/json',
     'x-api-key':process.env.REQRES_API_KEY ?? ''

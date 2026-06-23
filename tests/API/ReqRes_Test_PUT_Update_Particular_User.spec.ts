@@ -1,22 +1,22 @@
 import {test, expect} from '@playwright/test'
-import getData from '../../testdata/reqres_createnewuser.json'
+import getUpdateData from '../../testdata/reqres_updateexistinguser.json'
 
-test('Post User Playwright test',async({request})=>{
+test('Put - Update User Playwright test',async({request})=>{
 
 
-    const responseBody = await request.post('/api/users',{
+    const responseBody = await request.put('/api/users/2',{
     headers : {
     'Content-Type':'application/json',
     'x-api-key':process.env.REQRES_API_KEY ?? '',
-}, data : getData
+}, data : getUpdateData
 
 })
 
 const responseBodyJson = await responseBody.json()
 console.log(responseBodyJson)
-expect(responseBody.status()).toBe(201)
-expect(responseBodyJson).toHaveProperty('email')
+expect(responseBody.status()).toBe(200)
 expect(responseBodyJson.first_name).toBe('Malathi')
+expect(responseBodyJson.last_name).toBe('Subburathinam')
 expect(responseBodyJson.email).toBe('mals.ece@reqres.in')
 
 })
