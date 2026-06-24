@@ -1,6 +1,6 @@
 # Playwright API — reqres.in API Test Automation
 
-API test automation suite built with **Playwright (TypeScript)** against the [reqres.in](https://reqres.in) mock REST API, covering CRUD operations on Users, with secure API key management and externalised test data.
+API test automation suite built with **Playwright (TypeScript)** against the [reqres.in](https://reqres.in) mock REST API, covering CRUD operations on Users plus Login authentication scenarios, with secure API key management and externalised test data.
 
 ## Target API
 
@@ -26,13 +26,17 @@ Playwright API/
 ├── test-results/
 ├── testdata/
 │   ├── reqres_createnewuser.json                     # Payload for POST (create user) tests
-│   └── reqres_updateexistinguser.json                # Payload for PUT (update user) tests
+│   ├── reqres_updateexistinguser.json                # Payload for PUT (update user) tests
+│   ├── reqres_login.json                             # Payload for valid login test
+│   └── reqres_login_negative.json                    # Payload for invalid login test
 ├── tests/
 │   └── API/
 │       ├── ReqRes_Test_DELETE_specific_User.spec.ts
 │       ├── ReqRes_Test_GET_All_Users.spec.ts
 │       ├── ReqRes_Test_Get_Invalid_User.spec.ts
 │       ├── ReqRes_Test_GET_specific_User.spec.ts
+│       ├── ReqRes_Test_Login.spec.ts
+│       ├── ReqRes_Test_Login_negative_scenario.spec.ts
 │       ├── ReqRes_Test_POST_Create_New_User.spec.ts
 │       └── ReqRes_Test_PUT_Update_Particular_User.spec.ts
 ├── .env                                               # API key (gitignored — not committed)
@@ -95,8 +99,9 @@ Tests can also be run directly from VS Code via the **Playwright Test for VSCode
 | `POST` | `/api/users` | Create a new user — `ReqRes_Test_POST_Create_New_User.spec.ts` |
 | `PUT` | `/api/users/{id}` | Update an existing user — `ReqRes_Test_PUT_Update_Particular_User.spec.ts` |
 | `DELETE` | `/api/users/{id}` | Delete a specific user — `ReqRes_Test_DELETE_specific_User.spec.ts` |
+| `POST` | `/api/login` | Login — valid credentials — `ReqRes_Test_Login.spec.ts` |
+| `POST` | `/api/login` | Login — invalid/negative scenario — `ReqRes_Test_Login_negative_scenario.spec.ts` |
 | `POST` | `/api/register` | Register (valid / invalid) *(planned)* |
-| `POST` | `/api/login` | Login (valid / invalid) *(planned)* |
 
 ## Test Data
 
@@ -104,6 +109,8 @@ Request payloads are externalised under `testdata/` rather than hardcoded inline
 
 - `reqres_createnewuser.json` — payload used by the POST (create user) test
 - `reqres_updateexistinguser.json` — payload used by the PUT (update user) test
+- `reqres_login.json` — payload used by the valid login test
+- `reqres_login_negative.json` — payload used by the invalid/negative login test
 
 ## Key Practices Followed
 
@@ -113,7 +120,7 @@ Request payloads are externalised under `testdata/` rather than hardcoded inline
 - **No secrets in source control** — API key loaded from `.env`, file is gitignored
 - **Relative endpoints** via a shared `baseURL` in `playwright.config.ts`
 - **Externalised test data** for maintainability
-- **Negative/edge case coverage** alongside happy-path tests (e.g. invalid user ID returning 404)
+- **Negative/edge case coverage** alongside happy-path tests (e.g. invalid user ID returning 404, invalid login credentials)
 
 ## Author
 
